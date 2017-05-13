@@ -4,9 +4,19 @@ import java.util.Date;
 
 public class AgendaPessoal {
 
+	
 	private int id;
-	private String nomeTarefa,categoria,status;
+	private String nomeTarefa, categoria, status,data;
 	private Date dataTarefa;
+	
+	
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+	
 	public int getId() {
 		return id;
 	}

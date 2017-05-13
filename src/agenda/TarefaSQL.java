@@ -2,160 +2,71 @@ package agenda;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TarefaSQL implements InterfaceTarefa {
+public class TarefaSQL extends TarefasGenerico {
 
 	private Connection connection;
 
 	public TarefaSQL() {
-		this.connection = new Conect().getConnection();
+		this.connection = new ConnectionDatabase().getConnection();
 	}
 
-	@Override
-	public void Inserir(AgendaPessoal tarefa) {
+	public void Inserir(AgendaPessoal tarefa) throws SQLException {
 		// cria objeto
-
 		// Cria uma conexão com o banco
-
-		String sql = "insert into TAREFA " + "(nomeTarefa,categoria,status) " + "values (?,?,?)";
-
-		PreparedStatement pstm = null;
-
-		try {
-			connection = new Conect().getConnection();
-			//
-
-			// Cria uma conexão com o banco
-
-			// Cria um PreparedStatment, classe usada para executar a query
-			pstm = connection.prepareStatement(sql);
-
-			// //Adiciona o valor do primeiro parâmetro da sql
-
-			pstm.setString(1, tarefa.getNomeTarefa());
-			// Adicionar o valor do segundo parâmetro da sql
-			pstm.setString(2, tarefa.getCategoria());
-			pstm.setString(3, tarefa.getStatus());
-			// Adiciona o valor do terceiro parâmetro da sql
-
-			// Executa a sql para inserção dos dados
-			pstm.execute();
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		} finally {
-
-			// Fecha as conexões
-
-			try {
-				if (pstm != null) {
-
-					pstm.close();
-				}
-
-				if (connection != null) {
-					connection.close();
-				}
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
+		String insert = "insert into TAREFA " + "(nomeTarefa,categoria,status,data) " + "values (?,?,?,?)";
+		save(insert, tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(), tarefa.getDataTarefa());
 
 	}
 
-	@Override
-	public void Alterar(AgendaPessoal tarefa) {
+	public void Alterar(AgendaPessoal tarefa) throws SQLException {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE TAREFA SET nomeTarefa = ?, categoria = ?, status=?" + " WHERE id = ?";
-
-		Connection conn = null;
-		PreparedStatement pstm = null;
-
-		try {
-			conn = new Conect().getConnection();
-			//
-
-			// Cria uma conexão com o banco
-
-			// Cria um PreparedStatment, classe usada para executar a query
-			pstm = conn.prepareStatement(sql);
-
-			// //Adiciona o valor do primeiro parâmetro da sql
-
-			pstm.setString(1, tarefa.getNomeTarefa());
-			// Adicionar o valor do segundo parâmetro da sql
-			pstm.setString(2, tarefa.getCategoria());
-			pstm.setString(3, tarefa.getStatus());
-			// Adiciona o valor do terceiro parâmetro da sql
-			pstm.setInt(4, tarefa.getId());
-			// Executa a sql para inserção dos dados
-			pstm.execute();
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		} finally {
-
-			// Fecha as conexões
-
-			try {
-				if (pstm != null) {
-
-					pstm.close();
-				}
-
-				if (conn != null) {
-					conn.close();
-				}
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
+		String update = "UPDATE TAREFA SET nomeTarefa = ?, categoria = ?, status=?, dataTarefa=?" + " WHERE id = ?";
+		update(update, tarefa.getId(), tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(),
+				tarefa.getDataTarefa());
 
 	}
 
-	@Override
-	public void Excluir(int id) {
+	public void Excluir(int id) throws SQLException {
 		// TODO Auto-generated method stub
-		String sql = "DELETE FROM TAREFA WHERE id = ?";
+		String delete = "DELETE FROM TAREFA WHERE id = ?";
+		delete(delete, id);
+
+	}
+
+	public List<AgendaPessoal> getLista() {
 		Connection conn = null;
-		PreparedStatement pstm = null;
-
 		try {
-			conn = new Conect().getConnection();
+			conn = new ConnectionDatabase().getConnection();
 
-			pstm = conn.prepareStatement(sql);
+			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
 
-			pstm.setInt(1, id);
+			PreparedStatement stmt = conn.prepareStatement("select * from TAREFA");
+			ResultSet rs = stmt.executeQuery();
 
-			pstm.execute();
+			while (rs.next()) {
+				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
+				// viagem.setIdViagem(rs.getInt("idViagem"));
+				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setCategoria(rs.getString("categoria"));
+				tarefa.setId(rs.getInt("id"));
+				tarefa.setStatus(rs.getString("status"));
+				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-
-			try {
-				if (pstm != null) {
-
-					pstm.close();
-				}
-
-				if (conn != null) {
-					conn.close();
-				}
-
-			} catch (Exception e) {
-
-				e.printStackTrace();
+				// adicionando o objeto à lista
+				tarefas.add(tarefa);
 			}
+			rs.close();
+			stmt.close();
+			return tarefas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
-
 	}
 
 }
