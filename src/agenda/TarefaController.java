@@ -21,7 +21,19 @@ public class TarefaController {
 		AgendaPessoal tarefas = new AgendaPessoal();
 		tarefas.setNomeTarefa(nomeTarefa);
 		tarefas.setCategoria(categoria);
+		tarefas.setStatus(status);
 		tarefas.setDataTarefa(formatarData(dataTarefa));
+
+		new TarefaSQL().Inserir(tarefas);
+	}
+	
+	public void salvarTarefa(String nomeTarefa, String categoria, String status, Date dataTarefa)
+			throws SQLException, ParseException {
+		AgendaPessoal tarefas = new AgendaPessoal();
+		tarefas.setNomeTarefa(nomeTarefa);
+		tarefas.setStatus(status);
+		tarefas.setCategoria(categoria);
+		tarefas.setDataTarefa(dataTarefa);
 
 		new TarefaSQL().Inserir(tarefas);
 	}
@@ -42,10 +54,32 @@ public class TarefaController {
 	public void excluirTarefa(int id) throws SQLException {
 		new TarefaSQL().Excluir(id);
 	}
+	
+	
 
+	
+	
 	public List<AgendaPessoal> listaTarefas() {
 		TarefaSQL tarefas = new TarefaSQL();
 		return tarefas.getLista();
+
+	}
+	
+	public List<AgendaPessoal> pegaDia() {
+		TarefaSQL tarefas = new TarefaSQL();
+		return tarefas.getDia();
+
+	}
+	
+	public List<AgendaPessoal> pegaMes() {
+		TarefaSQL tarefas = new TarefaSQL();
+		return tarefas.getMes();
+
+	}
+	
+	public List<AgendaPessoal> pegaSemana() {
+		TarefaSQL tarefas = new TarefaSQL();
+		return tarefas.getSemana();
 
 	}
 

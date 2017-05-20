@@ -18,7 +18,7 @@ public class TarefaSQL extends TarefasGenerico {
 	public void Inserir(AgendaPessoal tarefa) throws SQLException {
 		// cria objeto
 		// Cria uma conexão com o banco
-		String insert = "insert into TAREFA " + "(nomeTarefa,categoria,status,data) " + "values (?,?,?,?)";
+		String insert = "insert into TAREFA " + "(nomeTarefa,categoria,status,dataTarefa) " + "values (?,?,?,?)";
 		save(insert, tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(), tarefa.getDataTarefa());
 
 	}
@@ -37,7 +37,15 @@ public class TarefaSQL extends TarefasGenerico {
 		delete(delete, id);
 
 	}
-
+	
+	public void pegaDia() throws SQLException {
+		// TODO Auto-generated method stub
+		AgendaPessoal data = new AgendaPessoal();
+		Connection conn = new ConnectionDatabase().getConnection();
+		PreparedStatement stmt = conn.prepareStatement("Select Day(dataTarefa) From TAREFA; ");
+		System.out.println(stmt);
+	}
+	
 	public List<AgendaPessoal> getLista() {
 		Connection conn = null;
 		try {
@@ -68,5 +76,90 @@ public class TarefaSQL extends TarefasGenerico {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public List<AgendaPessoal> getDia() {
+		Connection conn = null;
+		try {
+			conn = new ConnectionDatabase().getConnection();
+
+			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
+
+			PreparedStatement stmt = conn.prepareStatement("Select nomeTarefa,dataTarefa from TAREFA where Day(dataTarefa) = Day(Now());");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
+				// viagem.setIdViagem(rs.getInt("idViagem"));
+				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
+
+				// adicionando o objeto à lista
+				tarefas.add(tarefa);
+			}
+			rs.close();
+			stmt.close();
+			return tarefas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<AgendaPessoal> getMes() {
+		Connection conn = null;
+		try {
+			conn = new ConnectionDatabase().getConnection();
+
+			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
+
+			PreparedStatement stmt = conn.prepareStatement("Select nomeTarefa,dataTarefa from TAREFA where MONTH(dataTarefa) = MONTH(Now());");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
+				// viagem.setIdViagem(rs.getInt("idViagem"));
+				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
+
+				// adicionando o objeto à lista
+				tarefas.add(tarefa);
+			}
+			rs.close();
+			stmt.close();
+			return tarefas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public List<AgendaPessoal> getSemana() {
+		Connection conn = null;
+		try {
+			conn = new ConnectionDatabase().getConnection();
+
+			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
+
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM TAREFA WHERE dataTarefa BETWEEN DATE_SUB(NOW(), INTERVAL 7 DAY) AND NOW();");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
+				// viagem.setIdViagem(rs.getInt("idViagem"));
+				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
+
+				// adicionando o objeto à lista
+				tarefas.add(tarefa);
+			}
+			rs.close();
+			stmt.close();
+			return tarefas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 
 }

@@ -43,9 +43,8 @@ public class TarefasGenerico {
 		for (int i = 0; i < parametros.length; i++) {
 			pstmt.setObject(i + 1, parametros[i]);
 		}
-
-		pstmt.execute();
-		pstmt.close();
 	}
 
+	
+	
 }
