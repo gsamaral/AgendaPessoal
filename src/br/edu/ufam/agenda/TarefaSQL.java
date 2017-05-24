@@ -1,4 +1,4 @@
-package agenda;
+package br.edu.ufam.agenda;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,6 +22,8 @@ public class TarefaSQL extends TarefasGenerico {
 		save(insert, tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(), tarefa.getDataTarefa());
 
 	}
+	
+	
 
 	public void Alterar(AgendaPessoal tarefa) throws SQLException {
 		// TODO Auto-generated method stub
@@ -84,16 +86,17 @@ public class TarefaSQL extends TarefasGenerico {
 
 			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
 
-			PreparedStatement stmt = conn.prepareStatement("Select nomeTarefa,dataTarefa from TAREFA where Day(dataTarefa) = Day(Now());");
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM TAREFA where Day(dataTarefa) = Day(Now());");
 			ResultSet rs = stmt.executeQuery();
-
+			AgendaPessoal tarefa = new AgendaPessoal();
 			while (rs.next()) {
 				// criando o objeto viagem
-				AgendaPessoal tarefa = new AgendaPessoal();
-				// viagem.setIdViagem(rs.getInt("idViagem"));
 				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setCategoria(rs.getString("categoria"));
+				tarefa.setId(rs.getInt("id"));
+				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
-
+				
 				// adicionando o objeto à lista
 				tarefas.add(tarefa);
 			}
@@ -112,7 +115,7 @@ public class TarefaSQL extends TarefasGenerico {
 
 			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
 
-			PreparedStatement stmt = conn.prepareStatement("Select nomeTarefa,dataTarefa from TAREFA where MONTH(dataTarefa) = MONTH(Now());");
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM TAREFA where MONTH(dataTarefa) = MONTH(Now());");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -120,6 +123,9 @@ public class TarefaSQL extends TarefasGenerico {
 				AgendaPessoal tarefa = new AgendaPessoal();
 				// viagem.setIdViagem(rs.getInt("idViagem"));
 				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setCategoria(rs.getString("categoria"));
+				tarefa.setId(rs.getInt("id"));
+				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
 
 				// adicionando o objeto à lista
@@ -148,6 +154,9 @@ public class TarefaSQL extends TarefasGenerico {
 				AgendaPessoal tarefa = new AgendaPessoal();
 				// viagem.setIdViagem(rs.getInt("idViagem"));
 				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setCategoria(rs.getString("categoria"));
+				tarefa.setId(rs.getInt("id"));
+				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
 
 				// adicionando o objeto à lista
@@ -161,5 +170,57 @@ public class TarefaSQL extends TarefasGenerico {
 		}
 	}
 	
+	public List<AgendaPessoal> statusConcluido() {
+		Connection conn = null;
+		try {
+			conn = new ConnectionDatabase().getConnection();
+
+			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
+
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM TAREFA WHERE status='concluída';");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
+				// viagem.setIdViagem(rs.getInt("idViagem"));
+				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setCategoria(rs.getString("categoria"));
+				tarefa.setId(rs.getInt("id"));
+				tarefa.setStatus(rs.getString("status"));
+				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
+
+				// adicionando o objeto à lista
+				tarefas.add(tarefa);
+			}
+			rs.close();
+			stmt.close();
+			return tarefas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public AgendaPessoal findByName(String nome) throws SQLException {
+        String select = "SELECT * FROM TAREFA WHERE nomeTarefa = ?";
+        AgendaPessoal tarefas = null;
+        PreparedStatement stmt = 
+			getConnection().prepareStatement(select);
+			
+        stmt.setString(1, nome);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+        	tarefas.setNomeTarefa(rs.getString("nomeTarefa"));
+			tarefas.setCategoria(rs.getString("categoria"));
+			tarefas.setId(rs.getInt("id"));
+			tarefas.setStatus(rs.getString("status"));
+			tarefas.setDataTarefa(rs.getDate("dataTarefa"));
+        }
+
+        rs.close();
+        stmt.close();
+        return tarefas;
+    }
 
 }

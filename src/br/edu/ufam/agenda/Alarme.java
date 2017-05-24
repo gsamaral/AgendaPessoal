@@ -1,4 +1,4 @@
-package agenda;
+package br.edu.ufam.agenda;
 
 import java.util.Calendar;
 

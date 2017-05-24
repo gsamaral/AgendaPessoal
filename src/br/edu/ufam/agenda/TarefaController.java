@@ -1,9 +1,10 @@
-package agenda;
+package br.edu.ufam.agenda;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -82,5 +83,25 @@ public class TarefaController {
 		return tarefas.getSemana();
 
 	}
+	
+	public List<AgendaPessoal> statusConcluido() {
+		TarefaSQL tarefas = new TarefaSQL();
+		return tarefas.statusConcluido();
+
+	}
+	
+	public AgendaPessoal buscaContatoPorNome(String nome) throws SQLException {
+        TarefaSQL dao = new TarefaSQL();
+        return dao.findByName(nome);
+    }
+	
+	
+//	public List<String> addCategoria(String categoria) {
+//		ArrayList<String> cat = new ArrayList<String>();
+//		cat.add(categoria);
+//		return cat;
+//	}
+//	
+//	
 
 }

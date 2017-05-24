@@ -1,10 +1,12 @@
-package agenda;
+package br.edu.ufam.agenda;
 
 
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -15,6 +17,7 @@ import java.awt.Component;
 import javax.swing.AbstractListModel;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -51,7 +54,7 @@ public class JanelaPrincipal extends JFrame {
 	 */
 	public JanelaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 400);
+		setBounds(100, 100, 500, 490);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -95,12 +98,17 @@ public class JanelaPrincipal extends JFrame {
 		gbc_lblPrximas.gridy = 0;
 		panel_1.add(lblPrximas, gbc_lblPrximas);
 		
+		
+		
 		JList list = new JList();
+		JScrollPane listScrollPane = new JScrollPane();
+		 listScrollPane.setSize(new Dimension(75,200));
+		 listScrollPane.getViewport().setView(list);
 		GridBagConstraints gbc_list = new GridBagConstraints();
 		gbc_list.fill = GridBagConstraints.BOTH;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 2;
-		panel_1.add(list, gbc_list);
+		panel_1.add(listScrollPane, gbc_list);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(51, 230, 385, 128);
@@ -114,12 +122,12 @@ public class JanelaPrincipal extends JFrame {
 		panel_2.add(lblConcludas, gbc_lblConcludas);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(12, 38, 424, 38);
+		panel.setBounds(12, 38, 445, 38);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton btnDia = new JButton("Dia");
-		btnDia.setBounds(177, 12, 57, 25);
+		btnDia.setBounds(197, 12, 57, 25);
 		btnDia.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_1.removeAll();
@@ -132,7 +140,7 @@ public class JanelaPrincipal extends JFrame {
 		panel.add(btnDia);
 		
 		JButton btnMs = new JButton("Mês");
-		btnMs.setBounds(306, 12, 70, 25);
+		btnMs.setBounds(338, 12, 77, 25);
 		panel.add(btnMs);
 		btnMs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -144,23 +152,28 @@ public class JanelaPrincipal extends JFrame {
 			}
 		});
 		
-		JButton btnMais = new JButton("+");
-		btnMais.setBounds(378, 12, 46, 25);
-		panel.add(btnMais);
-		
-		JButton btnSemana = new JButton("Semana");
-		btnSemana.setBounds(222, 12, 91, 25);
-		panel.add(btnSemana);
-		
 		
 		
 		JButton btnNewButton_1 = new JButton("Categoria");
-		btnNewButton_1.setBounds(82, 12, 104, 25);
+		btnNewButton_1.setBounds(96, 12, 104, 25);
 		panel.add(btnNewButton_1);
 		
 		JButton btnIncio = new JButton("Início");
-		btnIncio.setBounds(0, 12, 82, 25);
+		btnIncio.setBounds(12, 12, 91, 25);
 		panel.add(btnIncio);
+		
+		
+		
+		JButton btnSemana = new JButton("Semana");
+		btnSemana.setBounds(254, 12, 91, 25);
+		panel.add(btnSemana);
+		btnSemana.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				panel_1.removeAll();
+				panel_1.add(new SemanaPanel());
+				panel_1.updateUI();
+			}
+		});
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_1.removeAll();
@@ -170,22 +183,20 @@ public class JanelaPrincipal extends JFrame {
 				panel_2.updateUI();
 			}
 		});
-//		btnIncio.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				panel_1.removeAll();
-//				panel_2.removeAll();
-//				panel_1.add(new JanelaPrincipal());
-//				panel_1.updateUI();
-//				panel_2.updateUI();
-//			}
-//		});
-		btnSemana.addActionListener(new ActionListener() {
+//		
+		btnIncio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panel_1.removeAll();
-				panel_1.add(new SemanaPanel());
+				panel_2.removeAll();
+				panel_1.add(new InicioPanel());
 				panel_1.updateUI();
+				panel_2.updateUI();
+				
+				
 			}
 		});
+		
+		
 		
 		JLabel lblAtividades = new JLabel("Atividades");
 		lblAtividades.setFont(new Font("Dialog", Font.BOLD, 14));
@@ -201,25 +212,52 @@ public class JanelaPrincipal extends JFrame {
 		panel_2.setLayout(gbl_panel_2);
 		
 		JList list_1 = new JList();
+		JScrollPane listScrollPane2 = new JScrollPane();
+		 listScrollPane2.setSize(new Dimension(75,200));
+		 listScrollPane2.getViewport().setView(list_1);
+		
 		GridBagConstraints gbc_list_1 = new GridBagConstraints();
 		gbc_list_1.fill = GridBagConstraints.BOTH;
 		gbc_list_1.gridx = 0;
 		gbc_list_1.gridy = 2;
-		panel_2.add(list_1, gbc_list_1);
+		panel_2.add(listScrollPane2, gbc_list_1);
+		
+		JButton btnEditar = new JButton("");
+		btnEditar.setIcon(new ImageIcon("/home/geovana/Documentos/eclipse/AgendaPessoal/img/Pencil-icon.png"));
+		btnEditar.setBounds(159, 411, 46, 30);
+		contentPane.add(btnEditar);
+		
+		
+		
+		
+		
+		
+		JButton btnMais = new JButton("");
+		btnMais.setIcon(new ImageIcon("/home/geovana/Documentos/eclipse/AgendaPessoal/img/add-1-icon.png"));
+		btnMais.setBounds(220, 411, 51, 30);
+		contentPane.add(btnMais);
 		
 		
 		btnMais.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NovaAtividade edit = new NovaAtividade();
-				edit.setVisible(true);
+				NovaAtividade novaAtv = new NovaAtividade();
+				novaAtv.setVisible(true);
 //				TarefaController tf = new TarefaController();
 //				List<AgendaPessoal> lista = tf.listaTarefas();
 //				textField.setText(lista.get(0).getNomeTarefa());
 				
 			}
 		});
+		
+//		btnIncio.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				panel.add(panel_1);
+//				
+//			}
+//		});
+		
 		TarefaController tf = new TarefaController();
-		List<AgendaPessoal> recebe = tf.pegaSemana();
+		List<AgendaPessoal> recebe = tf.listaTarefas();
 		DefaultListModel model=new DefaultListModel();
 		list.setModel(new AbstractListModel() {
 			public int getSize() {
@@ -231,15 +269,46 @@ public class JanelaPrincipal extends JFrame {
 			
 		});
 		
+	
+		List<AgendaPessoal> recebe2 = tf.statusConcluido();
 		list_1.setModel(new AbstractListModel() {
 			public int getSize() {
-				return recebe.size();
+				return recebe2.size();
 			}
 			public Object getElementAt(int index) {
-				return recebe.get(index).getNomeTarefa()+" "+recebe.get(index).getDataTarefa();
+				return recebe2.get(index).getNomeTarefa()+" "+recebe2.get(index).getDataTarefa();
 			}
 			
 		});
+		
+		
+		
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TarefaController edit = new TarefaController();
+			//EditarAtividade1 editTarefa = new EditarAtividade1(edit.buscaContatoPorNome(nome))
+//				editTarefa.setVisible(true);
+//				TarefaController tf = new TarefaController();
+//				List<AgendaPessoal> lista = tf.listaTarefas();
+//				textField.setText(lista.get(0).getNomeTarefa());
+				
+			}
+		});
+//		
+//		String item = (String) list.getSelectedValue();
+//		String[] itemLista = item.split(" ");
+//		System.out.println(itemLista[0]);
+//		 
+//		@Override
+//        public void valueChanged(ListSelectionEvent e) {
+//            System.out.println(e);
+//            if (list_1.getSelectedValue() != null) {
+//                lblNewLabel.setText(list.getSelectedValue().toString());
+//            }               
+//        }
+//    });
+		//TODO USAR SPLIT NA STRING DA LISTA  E PASSA LA NA FUNCAO DE BUSCA POR NOME E SETAR OS VALORES NOS CAMPOS
+		
 		
 	}
 }
