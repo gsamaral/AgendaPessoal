@@ -9,7 +9,7 @@ import java.util.List;
 
 import br.edu.ufam.agenda.conexao.ConnectionDatabase;
 
-public class TarefaSQL extends TarefasGenerico {
+public class TarefaSQL extends SQLGenerico {
 
 	private Connection connection;
 

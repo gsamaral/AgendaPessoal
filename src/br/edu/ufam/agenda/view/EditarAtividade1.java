@@ -74,7 +74,7 @@ public class EditarAtividade1 extends JFrame {
 		
 		JLabel lblNovaAtividade = new JLabel("Editar Atividade");
 		lblNovaAtividade.setFont(new Font("Liberation Mono", Font.BOLD, 14));
-		lblNovaAtividade.setBounds(133, 12, 127, 24);
+		lblNovaAtividade.setBounds(133, 12, 140, 24);
 		panel.add(lblNovaAtividade);
 		
 		JPanel panel_1 = new JPanel();
@@ -101,8 +101,6 @@ public class EditarAtividade1 extends JFrame {
 		panel_1.add(comboBox_1);
 		
 		ButtonGroup btgroup = new ButtonGroup();
-		
-		
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBounds(5, 102, 390, 48);
