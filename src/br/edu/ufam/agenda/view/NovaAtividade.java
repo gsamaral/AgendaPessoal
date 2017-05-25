@@ -1,4 +1,4 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -23,8 +23,11 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
+import com.toedter.components.JSpinField;
 
-public class EditarAtividade1 extends JFrame {
+import br.edu.ufam.agenda.TarefaController;
+
+public class NovaAtividade extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -48,7 +51,7 @@ public class EditarAtividade1 extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public EditarAtividade1(AgendaPessoal tarefa) {
+	public NovaAtividade() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
@@ -115,14 +118,25 @@ public class EditarAtividade1 extends JFrame {
 		lblAlarme.setBounds(12, 12, 70, 15);
 		panel_4.add(lblAlarme);
 		
-		JRadioButton rdbtnOnoff = new JRadioButton("on/off");
-		rdbtnOnoff.setBounds(88, 8, 83, 23);
-		panel_4.add(rdbtnOnoff);
+		JSpinField spinField = new JSpinField();
+		spinField.setBounds(100, 8, 45, 19);
+		panel_4.add(spinField);
+		
+		JSpinField spinField_1 = new JSpinField();
+		spinField_1.setBounds(157, 8, 45, 19);
+		panel_4.add(spinField_1);
+		
+		JLabel lblH = new JLabel("hs:");
+		lblH.setBounds(78, 12, 23, 15);
+		panel_4.add(lblH);
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(5, 184, 390, 48);
 		contentPane.add(panel_5);
 		panel_5.setLayout(null);
+		
+		
+		
 		
 		JComboBox<String> comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ativa", "Concluída", "Planejamento"}));
@@ -133,17 +147,23 @@ public class EditarAtividade1 extends JFrame {
 		lblStatus.setBounds(12, 12, 70, 15);
 		panel_5.add(lblStatus);
 		
+		JLabel lblMin = new JLabel("min");
+		lblMin.setBounds(148, 12, 23, 15);
+		panel_5.add(lblMin);
+		
 		
 		
 		
 		JButton btnOk = new JButton("ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TarefaController tc = new TarefaController();
+				int hora = spinField.getValue();
+				int minuto = spinField_1.getValue();
 				
+				TarefaController tc = new TarefaController();
 				String categoria = comboBox_1.getSelectedItem().toString();
 				try {
-					tc.alterarTarefa(tarefa.getId(), textField.getText(), categoria, comboBox.getSelectedItem().toString(), dateChooser.getDate().toString());
+					tc.salvarTarefa(textField.getText(), categoria, comboBox.getSelectedItem().toString(),dateChooser.getDate(),hora,minuto );
 					
 					
 				} catch (SQLException e1) {
@@ -155,7 +175,7 @@ public class EditarAtividade1 extends JFrame {
 				}
 			}
 		});
-		btnOk.setBounds(152, 258, 62, 25);
+		btnOk.setBounds(138, 244, 62, 25);
 		contentPane.add(btnOk);
 	}
 }

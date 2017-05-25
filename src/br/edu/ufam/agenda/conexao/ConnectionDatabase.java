@@ -1,4 +1,4 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.conexao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

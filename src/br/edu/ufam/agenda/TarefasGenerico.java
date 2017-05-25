@@ -2,6 +2,9 @@ package br.edu.ufam.agenda;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+
+import br.edu.ufam.agenda.conexao.ConnectionDatabase;
+
 import java.sql.PreparedStatement;
 
 public class TarefasGenerico {

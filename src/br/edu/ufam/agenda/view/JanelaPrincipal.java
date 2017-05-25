@@ -1,4 +1,4 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.view;
 
 
 import java.awt.EventQueue;
@@ -7,9 +7,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import br.edu.ufam.agenda.AgendaPessoal;
+import br.edu.ufam.agenda.TarefaController;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.Component;
@@ -286,8 +292,20 @@ public class JanelaPrincipal extends JFrame {
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TarefaController edit = new TarefaController();
-			//EditarAtividade1 editTarefa = new EditarAtividade1(edit.buscaContatoPorNome(nome))
-//				editTarefa.setVisible(true);
+				
+				String item = (String) list.getSelectedValue();
+				String[] itemLista = item.split(" ");
+				String s = itemLista[0].toString();
+				
+				
+			try {
+				EditarAtividade1 editTarefa = new EditarAtividade1(edit.buscaContatoPorNome(s));
+				editTarefa.setVisible(true);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 //				TarefaController tf = new TarefaController();
 //				List<AgendaPessoal> lista = tf.listaTarefas();
 //				textField.setText(lista.get(0).getNomeTarefa());
@@ -299,15 +317,11 @@ public class JanelaPrincipal extends JFrame {
 //		String[] itemLista = item.split(" ");
 //		System.out.println(itemLista[0]);
 //		 
-//		@Override
-//        public void valueChanged(ListSelectionEvent e) {
-//            System.out.println(e);
-//            if (list_1.getSelectedValue() != null) {
-//                lblNewLabel.setText(list.getSelectedValue().toString());
-//            }               
-//        }
-//    });
+		
 		//TODO USAR SPLIT NA STRING DA LISTA  E PASSA LA NA FUNCAO DE BUSCA POR NOME E SETAR OS VALORES NOS CAMPOS
+		
+		
+		
 		
 		
 	}

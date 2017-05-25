@@ -17,29 +17,31 @@ public class TarefaController {
 		return new Date(formatter.parse(data).getTime());
 	}
 
-	public void salvarTarefa(String nomeTarefa, String categoria, String status, String dataTarefa)
+	public void salvarTarefa(String nomeTarefa, String categoria, String status, String dataTarefa,int hora, int min)
 			throws SQLException, ParseException {
 		AgendaPessoal tarefas = new AgendaPessoal();
 		tarefas.setNomeTarefa(nomeTarefa);
 		tarefas.setCategoria(categoria);
 		tarefas.setStatus(status);
 		tarefas.setDataTarefa(formatarData(dataTarefa));
-
+		tarefas.setHora(hora);
+		tarefas.setMin(min);
 		new TarefaSQL().Inserir(tarefas);
 	}
 	
-	public void salvarTarefa(String nomeTarefa, String categoria, String status, Date dataTarefa)
+	public void salvarTarefa(String nomeTarefa, String categoria, String status, Date dataTarefa,int hora, int min)
 			throws SQLException, ParseException {
 		AgendaPessoal tarefas = new AgendaPessoal();
 		tarefas.setNomeTarefa(nomeTarefa);
 		tarefas.setStatus(status);
 		tarefas.setCategoria(categoria);
 		tarefas.setDataTarefa(dataTarefa);
-
+		tarefas.setHora(hora);
+		tarefas.setMin(min);
 		new TarefaSQL().Inserir(tarefas);
 	}
 
-	public void alterarTarefa(int id, String nomeTarefa, String categoria, String status, String dataTarefa)
+	public void alterarTarefa(int id, String nomeTarefa, String categoria, String status, Date dataTarefa,int hora, int min)
 			throws ParseException, SQLException {
 
 		AgendaPessoal tarefas = new AgendaPessoal();
@@ -47,8 +49,9 @@ public class TarefaController {
 		tarefas.setCategoria(categoria);
 		tarefas.setStatus(status);
 		tarefas.setNomeTarefa(nomeTarefa);
-		tarefas.setDataTarefa(formatarData(dataTarefa));
-
+		tarefas.setDataTarefa(dataTarefa);
+		tarefas.setHora(hora);
+		tarefas.setMin(min);
 		new TarefaSQL().Alterar(tarefas);
 	}
 

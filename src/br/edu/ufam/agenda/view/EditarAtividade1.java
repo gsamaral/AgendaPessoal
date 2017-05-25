@@ -1,4 +1,4 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.view;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -14,6 +14,11 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.components.JSpinField;
+
+import br.edu.ufam.agenda.AgendaPessoal;
+import br.edu.ufam.agenda.TarefaController;
+
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
@@ -24,7 +29,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.awt.event.ActionEvent;
 
-public class NovaAtividade extends JFrame {
+public class EditarAtividade1 extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
@@ -36,7 +41,8 @@ public class NovaAtividade extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NovaAtividade frame = new NovaAtividade();
+					
+					EditarAtividade1 frame= new EditarAtividade1();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +54,12 @@ public class NovaAtividade extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public NovaAtividade() {
+	public EditarAtividade1(){
+		
+	}
+	
+	
+	public EditarAtividade1(AgendaPessoal tarefa) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
@@ -61,7 +72,7 @@ public class NovaAtividade extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNovaAtividade = new JLabel("Nova Atividade");
+		JLabel lblNovaAtividade = new JLabel("Editar Atividade");
 		lblNovaAtividade.setFont(new Font("Liberation Mono", Font.BOLD, 14));
 		lblNovaAtividade.setBounds(133, 12, 127, 24);
 		panel.add(lblNovaAtividade);
@@ -115,9 +126,15 @@ public class NovaAtividade extends JFrame {
 		lblAlarme.setBounds(12, 12, 70, 15);
 		panel_4.add(lblAlarme);
 		
-		JRadioButton rdbtnOnoff = new JRadioButton("on/off");
-		rdbtnOnoff.setBounds(88, 8, 83, 23);
-		panel_4.add(rdbtnOnoff);
+		JSpinField spinField = new JSpinField();
+		spinField.setBounds(100, 8, 45, 19);
+		panel_4.add(spinField);
+		
+		JSpinField spinField_1 = new JSpinField();
+		spinField_1.setBounds(157, 8, 45, 19);
+		panel_4.add(spinField_1);
+		
+		
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBounds(5, 184, 390, 48);
@@ -140,9 +157,12 @@ public class NovaAtividade extends JFrame {
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TarefaController tc = new TarefaController();
+				int hora = spinField.getValue();
+				int minuto = spinField_1.getValue();
+				
 				String categoria = comboBox_1.getSelectedItem().toString();
 				try {
-					tc.salvarTarefa(textField.getText(), categoria, comboBox.getSelectedItem().toString(),dateChooser.getDate() );
+					tc.alterarTarefa(tarefa.getId(), textField.getText(), categoria, comboBox.getSelectedItem().toString(), dateChooser.getDate(),hora,minuto);
 					
 					
 				} catch (SQLException e1) {

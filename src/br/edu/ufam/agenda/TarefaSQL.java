@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ufam.agenda.conexao.ConnectionDatabase;
+
 public class TarefaSQL extends TarefasGenerico {
 
 	private Connection connection;
@@ -18,8 +20,8 @@ public class TarefaSQL extends TarefasGenerico {
 	public void Inserir(AgendaPessoal tarefa) throws SQLException {
 		// cria objeto
 		// Cria uma conexão com o banco
-		String insert = "insert into TAREFA " + "(nomeTarefa,categoria,status,dataTarefa) " + "values (?,?,?,?)";
-		save(insert, tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(), tarefa.getDataTarefa());
+		String insert = "insert into TAREFA " + "(nomeTarefa,categoria,status,dataTarefa,hora,min) " + "values (?,?,?,?,?,?)";
+		save(insert, tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(), tarefa.getDataTarefa(),tarefa.getHora(),tarefa.getMin());
 
 	}
 	
@@ -27,9 +29,9 @@ public class TarefaSQL extends TarefasGenerico {
 
 	public void Alterar(AgendaPessoal tarefa) throws SQLException {
 		// TODO Auto-generated method stub
-		String update = "UPDATE TAREFA SET nomeTarefa = ?, categoria = ?, status=?, dataTarefa=?" + " WHERE id = ?";
+		String update = "UPDATE TAREFA SET nomeTarefa = ?, categoria = ?, status=?, dataTarefa=?,hora=?,min=?" + " WHERE id = ?";
 		update(update, tarefa.getId(), tarefa.getNomeTarefa(), tarefa.getCategoria(), tarefa.getStatus(),
-				tarefa.getDataTarefa());
+				tarefa.getDataTarefa(),tarefa.getHora(),tarefa.getMin());
 
 	}
 
@@ -67,7 +69,8 @@ public class TarefaSQL extends TarefasGenerico {
 				tarefa.setId(rs.getInt("id"));
 				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
-
+				tarefa.setHora(rs.getInt("hora"));
+				tarefa.setMin(rs.getInt("min"));
 				// adicionando o objeto à lista
 				tarefas.add(tarefa);
 			}
@@ -96,7 +99,8 @@ public class TarefaSQL extends TarefasGenerico {
 				tarefa.setId(rs.getInt("id"));
 				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
-				
+				tarefa.setHora(rs.getInt("hora"));
+				tarefa.setMin(rs.getInt("min"));
 				// adicionando o objeto à lista
 				tarefas.add(tarefa);
 			}
@@ -127,7 +131,8 @@ public class TarefaSQL extends TarefasGenerico {
 				tarefa.setId(rs.getInt("id"));
 				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
-
+				tarefa.setHora(rs.getInt("hora"));
+				tarefa.setMin(rs.getInt("min"));
 				// adicionando o objeto à lista
 				tarefas.add(tarefa);
 			}
@@ -158,7 +163,8 @@ public class TarefaSQL extends TarefasGenerico {
 				tarefa.setId(rs.getInt("id"));
 				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
-
+				tarefa.setHora(rs.getInt("hora"));
+				tarefa.setMin(rs.getInt("min"));
 				// adicionando o objeto à lista
 				tarefas.add(tarefa);
 			}
@@ -189,7 +195,8 @@ public class TarefaSQL extends TarefasGenerico {
 				tarefa.setId(rs.getInt("id"));
 				tarefa.setStatus(rs.getString("status"));
 				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
-
+				tarefa.setHora(rs.getInt("hora"));
+				tarefa.setMin(rs.getInt("min"));
 				// adicionando o objeto à lista
 				tarefas.add(tarefa);
 			}
@@ -203,7 +210,7 @@ public class TarefaSQL extends TarefasGenerico {
 	
 	public AgendaPessoal findByName(String nome) throws SQLException {
         String select = "SELECT * FROM TAREFA WHERE nomeTarefa = ?";
-        AgendaPessoal tarefas = null;
+        AgendaPessoal tarefas = new AgendaPessoal();
         PreparedStatement stmt = 
 			getConnection().prepareStatement(select);
 			
@@ -216,6 +223,8 @@ public class TarefaSQL extends TarefasGenerico {
 			tarefas.setId(rs.getInt("id"));
 			tarefas.setStatus(rs.getString("status"));
 			tarefas.setDataTarefa(rs.getDate("dataTarefa"));
+			tarefas.setHora(rs.getInt("hora"));
+			tarefas.setMin(rs.getInt("min"));
         }
 
         rs.close();
