@@ -1,10 +1,7 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.sql;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import br.edu.ufam.agenda.conexao.ConnectionDatabase;
-
 import java.sql.PreparedStatement;
 
 public class SQLGenerico {

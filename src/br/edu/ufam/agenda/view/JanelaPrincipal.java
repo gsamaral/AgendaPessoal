@@ -10,7 +10,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import br.edu.ufam.agenda.AgendaPessoal;
-import br.edu.ufam.agenda.TarefaController;
+import br.edu.ufam.agenda.controller.TarefaController;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

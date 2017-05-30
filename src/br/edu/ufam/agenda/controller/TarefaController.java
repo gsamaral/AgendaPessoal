@@ -1,4 +1,4 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.controller;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -9,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import br.edu.ufam.agenda.AgendaPessoal;
+import br.edu.ufam.agenda.sql.TarefaSQL;
 
 public class TarefaController {
 
@@ -56,12 +59,11 @@ public class TarefaController {
 	}
 
 	public void excluirTarefa(int id) throws SQLException {
+		AgendaPessoal tarefas = new AgendaPessoal();
+		tarefas.setId(id);
+		
 		new TarefaSQL().Excluir(id);
 	}
-	
-	
-
-	
 	
 	public List<AgendaPessoal> listaTarefas() {
 		TarefaSQL tarefas = new TarefaSQL();
@@ -98,6 +100,11 @@ public class TarefaController {
         return dao.findByName(nome);
     }
 	
+	public List<AgendaPessoal> pegaNomeporcategoria(String categoria) {
+		TarefaSQL tarefas = new TarefaSQL();
+		return tarefas.pegaTarefaPorCategoria(categoria);
+
+	}
 	
 //	public List<String> addCategoria(String categoria) {
 //		ArrayList<String> cat = new ArrayList<String>();

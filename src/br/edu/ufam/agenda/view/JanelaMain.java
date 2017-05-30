@@ -89,6 +89,7 @@ public class JanelaMain extends JFrame {
 		panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_1.setBounds(38, 102, 455, 380);
+		panel_1.setLayout(new BorderLayout(0,0));
 		contentPane.add(panel_1);
 
 		JLabel lblAtividades = new JLabel("Atividades");
@@ -115,7 +116,7 @@ public class JanelaMain extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel_1.removeAll();
-			panel_1.add(inicioPanel);
+			panel_1.add(inicioPanel,BorderLayout.CENTER);
 			panel_1.updateUI();
 		}
 	}
@@ -124,7 +125,7 @@ public class JanelaMain extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel_1.removeAll();
-			panel_1.add(mesPanel);
+			panel_1.add(mesPanel,BorderLayout.CENTER);
 			panel_1.updateUI();
 		}
 	}
@@ -133,7 +134,7 @@ public class JanelaMain extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel_1.removeAll();
-			panel_1.add(semanaPanel);
+			panel_1.add(semanaPanel,BorderLayout.CENTER);
 			panel_1.updateUI();
 		}
 	}
@@ -142,7 +143,7 @@ public class JanelaMain extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel_1.removeAll();
-			panel_1.add(diaPanel);
+			panel_1.add(diaPanel,BorderLayout.CENTER);
 			panel_1.updateUI();
 		}
 	}
@@ -151,7 +152,7 @@ public class JanelaMain extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			panel_1.removeAll();
-			panel_1.add(categoriaPanel);
+			panel_1.add(categoriaPanel,BorderLayout.CENTER);
 			panel_1.updateUI();
 		}
 	}

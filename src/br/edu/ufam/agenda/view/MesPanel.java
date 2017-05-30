@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import br.edu.ufam.agenda.AgendaPessoal;
-import br.edu.ufam.agenda.TarefaController;
+import br.edu.ufam.agenda.controller.TarefaController;
 
 public class MesPanel extends JPanel {
 

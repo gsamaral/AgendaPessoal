@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import br.edu.ufam.agenda.AgendaPessoal;
-import br.edu.ufam.agenda.TarefaController;
+import br.edu.ufam.agenda.controller.TarefaController;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -78,9 +78,76 @@ public class InicioPanel extends JPanel {
 
 		JButton btnEditar = new JButton("Editar");
 		GridBagConstraints gbc_btnEditar = new GridBagConstraints();
-		gbc_btnEditar.gridx = 5;
+		gbc_btnEditar.insets = new Insets(0, 0, 0, 5);
+		gbc_btnEditar.gridx = 4;
 		gbc_btnEditar.gridy = 2;
 		panel.add(btnEditar, gbc_btnEditar);
+
+		JButton btnExcluir = new JButton("Excluir");
+		GridBagConstraints gbc_btnExcluir = new GridBagConstraints();
+		gbc_btnExcluir.gridx = 5;
+		gbc_btnExcluir.gridy = 2;
+		panel.add(btnExcluir, gbc_btnExcluir);
+
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TarefaController edit = new TarefaController();
+
+				if (list.getSelectedValue() != null) {
+					String item = (String) list.getSelectedValue();
+					String[] itemLista = item.split(" ");
+					String s = itemLista[0].toString();
+					System.out.println(s);
+
+					try {
+						EditarAtividade1 editTarefa = new EditarAtividade1(edit.buscaContatoPorNome(s));
+						editTarefa.setVisible(true);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+				// TarefaController tf = new TarefaController();
+				// List<AgendaPessoal> lista = tf.listaTarefas();
+				// textField.setText(lista.get(0).getNomeTarefa());
+
+			}
+		});
+		
+		
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TarefaController delete = new TarefaController();
+
+				if (list.getSelectedValue() != null) {
+					String item = (String) list.getSelectedValue();
+					String[] itemLista = item.split(" ");
+					String s = itemLista[0].toString();
+					System.out.println(s);
+					
+					
+					try {
+						ExcAtividade excluiTarefa = new ExcAtividade(delete.buscaContatoPorNome(s));
+						excluiTarefa.setVisible(true);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+				// TarefaController tf = new TarefaController();
+				// List<AgendaPessoal> lista = tf.listaTarefas();
+				// textField.setText(lista.get(0).getNomeTarefa());
+
+			}
+		});
 
 		TarefaController tf = new TarefaController();
 		List<AgendaPessoal> recebe = tf.listaTarefas();
@@ -112,38 +179,6 @@ public class InicioPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				NovaAtividade novaAtv = new NovaAtividade();
 				novaAtv.setVisible(true);
-				// TarefaController tf = new TarefaController();
-				// List<AgendaPessoal> lista = tf.listaTarefas();
-				// textField.setText(lista.get(0).getNomeTarefa());
-
-			}
-		});
-
-		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				TarefaController edit = new TarefaController();
-
-				
-				if (list.getSelectedValue() != null) {
-				String item = (String) list.getSelectedValue();
-				String[] itemLista = item.split(" ");
-				String s = itemLista[0].toString();
-				System.out.println(s);
-
-				
-
-					try {
-						EditarAtividade1 editTarefa = new EditarAtividade1(edit.buscaContatoPorNome(s));
-						editTarefa.setVisible(true);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",JOptionPane.ERROR_MESSAGE );
-				}
-
 				// TarefaController tf = new TarefaController();
 				// List<AgendaPessoal> lista = tf.listaTarefas();
 				// textField.setText(lista.get(0).getNomeTarefa());

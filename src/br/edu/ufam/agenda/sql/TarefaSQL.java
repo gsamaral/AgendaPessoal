@@ -1,4 +1,4 @@
-package br.edu.ufam.agenda;
+package br.edu.ufam.agenda.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.edu.ufam.agenda.conexao.ConnectionDatabase;
+import br.edu.ufam.agenda.AgendaPessoal;
 
 public class TarefaSQL extends SQLGenerico {
 
@@ -231,5 +231,42 @@ public class TarefaSQL extends SQLGenerico {
         stmt.close();
         return tarefas;
     }
+	
+	public List<AgendaPessoal> pegaTarefaPorCategoria(String categoria) {
+		Connection conn = null;
+		try {
+			conn = new ConnectionDatabase().getConnection();
+
+			List<AgendaPessoal> tarefas = new ArrayList<AgendaPessoal>();
+
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM TAREFA WHERE categoria=?;");
+			
+	       
+				
+	        stmt.setString(1, categoria);
+	        ResultSet rs = stmt.executeQuery();
+			
+			while (rs.next()) {
+				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
+				//viagem.setIdViagem(rs.getInt("idViagem"));
+				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
+				tarefa.setCategoria(rs.getString("categoria"));
+				tarefa.setId(rs.getInt("id"));
+				tarefa.setStatus(rs.getString("status"));
+				tarefa.setDataTarefa(rs.getDate("dataTarefa"));
+				tarefa.setHora(rs.getInt("hora"));
+				tarefa.setMin(rs.getInt("min"));
+				// adicionando o objeto à lista
+				tarefas.add(tarefa);
+			}
+			rs.close();
+			stmt.close();
+			return tarefas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
 
 }

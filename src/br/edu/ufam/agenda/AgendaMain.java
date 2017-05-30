@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import br.edu.ufam.agenda.sql.TarefaSQL;
+
 public class AgendaMain {
 
 	public static void main(String[] args) {

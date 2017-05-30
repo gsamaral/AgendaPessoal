@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import br.edu.ufam.agenda.AgendaPessoal;
-import br.edu.ufam.agenda.TarefaController;
+import br.edu.ufam.agenda.controller.TarefaController;
 
 public class SemanaPanel extends JPanel {
 
@@ -36,7 +36,7 @@ public class SemanaPanel extends JPanel {
 		gbl_panel_1.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
-		JLabel lblPrximas = new JLabel("Semana");
+		JLabel lblPrximas = new JLabel("Últimos 7 dias");
 		GridBagConstraints gbc_lblPrximas = new GridBagConstraints();
 		gbc_lblPrximas.insets = new Insets(0, 0, 5, 0);
 		gbc_lblPrximas.gridx = 0;

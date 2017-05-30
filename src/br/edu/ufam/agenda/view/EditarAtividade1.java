@@ -17,7 +17,7 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.components.JSpinField;
 
 import br.edu.ufam.agenda.AgendaPessoal;
-import br.edu.ufam.agenda.TarefaController;
+import br.edu.ufam.agenda.controller.TarefaController;
 
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;

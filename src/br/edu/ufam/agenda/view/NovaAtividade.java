@@ -25,7 +25,7 @@ import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import com.toedter.components.JSpinField;
 
-import br.edu.ufam.agenda.TarefaController;
+import br.edu.ufam.agenda.controller.TarefaController;
 
 public class NovaAtividade extends JFrame {
 
