@@ -39,10 +39,19 @@ public class CategoriaController {
 
 		Categoria categorias = new Categoria();
 		categorias.setNome(nomeCat);
+		categorias.setId(id);
 
 		new CategoriaSQL().AlterarCat(categorias);
 	}
 
+	public void SemCat(int id, String nomeCat) throws ParseException, SQLException {
+
+		Categoria categorias = new Categoria();
+		categorias.setNome(nomeCat);
+		categorias.setId(id);
+
+		new CategoriaSQL().SemCategoria(categorias);
+	}
 	/**
 	 * Chama a método sql de excluir categoria
 	 * @param id

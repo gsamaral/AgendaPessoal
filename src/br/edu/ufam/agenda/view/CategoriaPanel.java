@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -180,7 +181,7 @@ public class CategoriaPanel extends JPanel {
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CategoriaController cat = new CategoriaController();
-
+				TarefaController tf = new TarefaController();
 				if (list.getSelectedValue() != null) {
 					String item = (String) list.getSelectedValue();
 					String[] itemLista = item.split(" ");
@@ -189,10 +190,18 @@ public class CategoriaPanel extends JPanel {
 
 					try {
 						Categoria nome = cat.buscaContatoPorNomeCat(s);
+						List<AgendaPessoal> nomeAtv = tf.pegaNomeporcategoria(s);
+						for(AgendaPessoal tarefa: nomeAtv){
+							cat.SemCat(tarefa.getId(), tarefa.getNomeTarefa());
+						}
+						
 						cat.excluirCat(nome.getId());
 						JOptionPane.showMessageDialog(null, "Categoria excluída. Clique pra atualizar lista");
 
 					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParseException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}

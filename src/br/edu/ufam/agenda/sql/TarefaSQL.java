@@ -67,7 +67,7 @@ public class TarefaSQL extends SQLGenerico {
 		AgendaPessoal data = new AgendaPessoal();
 		Connection conn = new ConnectionDatabase().getConnection();
 		PreparedStatement stmt = conn.prepareStatement("Select Day(dataTarefa) From TAREFA; ");
-		System.out.println(stmt);
+		
 	}
 	
 	/**
@@ -119,9 +119,10 @@ public class TarefaSQL extends SQLGenerico {
 
 			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM TAREFA where Day(dataTarefa) = Day(Now());");
 			ResultSet rs = stmt.executeQuery();
-			AgendaPessoal tarefa = new AgendaPessoal();
+			
 			while (rs.next()) {
 				// criando o objeto viagem
+				AgendaPessoal tarefa = new AgendaPessoal();
 				tarefa.setNomeTarefa(rs.getString("nomeTarefa"));
 				tarefa.setCategoria(rs.getString("categoria"));
 				tarefa.setId(rs.getInt("id"));

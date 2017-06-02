@@ -82,6 +82,17 @@ public class SQLGenerico {
         pstmt.execute();
         pstmt.close();
     }
+	
+	protected void SemCat(String update, Object... parametros) throws SQLException {
+		PreparedStatement pstmt = getConnection().prepareStatement(update);
+
+		for (int i = 0; i < parametros.length; i++) {
+			pstmt.setObject(i + 1, parametros[i]);
+		}
+		
+		pstmt.execute();
+		pstmt.close();
+    }
 
 	
 	

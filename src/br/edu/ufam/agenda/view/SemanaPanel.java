@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -15,6 +17,7 @@ import javax.swing.JScrollPane;
 
 import br.edu.ufam.agenda.AgendaPessoal;
 import br.edu.ufam.agenda.controller.TarefaController;
+import javax.swing.JButton;
 
 public class SemanaPanel extends JPanel {
 
@@ -22,9 +25,10 @@ public class SemanaPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public SemanaPanel() {
-		setLayout(new GridLayout(1, 0, 0, 0));
+		setLayout(null);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 450, 132);
 		
 		add(panel_1);
 
@@ -54,9 +58,33 @@ public class SemanaPanel extends JPanel {
 		gbc_list.gridy = 2;
 		panel_1.add(listScrollPane, gbc_list);
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(12, 144, 428, 84);
+		add(panel);
+		panel.setLayout(null);
+		
+		JButton btnAtualizarLista = new JButton("Atualizar");
+		btnAtualizarLista.setBounds(132, 47, 117, 25);
+		panel.add(btnAtualizarLista);
+		
 		
 		TarefaController tf = new TarefaController();
 		List<AgendaPessoal> recebe = tf.pegaSemana();
+		
+		btnAtualizarLista.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TarefaController tf = new TarefaController();
+				List<AgendaPessoal> recebe = tf.pegaSemana();
+				list.setModel(new AbstractListModel() {
+					public int getSize() {
+						return recebe.size();
+					}
+					public Object getElementAt(int index) {
+						return recebe.get(index).getNomeTarefa()+" "+recebe.get(index).getDataTarefa();
+					}
+				});
+			}
+		});
 		
 		list.setModel(new AbstractListModel() {
 			public int getSize() {

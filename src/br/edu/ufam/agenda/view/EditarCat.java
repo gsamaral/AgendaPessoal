@@ -65,7 +65,7 @@ public class EditarCat extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNovaAtividade = new JLabel("Nova Categoria");
+		JLabel lblNovaAtividade = new JLabel("Editar ");
 		lblNovaAtividade.setFont(new Font("Liberation Mono", Font.BOLD, 14));
 		lblNovaAtividade.setBounds(84, 12, 127, 24);
 		panel.add(lblNovaAtividade);
@@ -108,7 +108,8 @@ public class EditarCat extends JFrame {
 				try {
 					ct.alterarCat(cat.getId(), textField.getText());
 					JOptionPane.showMessageDialog(null, "Categoria foi editada. Clique pra atualizar lista");
-					
+					System.out.println(cat.getId());
+					System.out.println(textField.getText());
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

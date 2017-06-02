@@ -45,6 +45,7 @@ public class CategoriaSQL extends SQLGenerico{
 	public void AlterarCat(Categoria categoria) throws SQLException {
 		// TODO Auto-generated method stub
 		String update = "UPDATE Categoria SET nomeCat = ?" + " WHERE idCat = ?";
+		
 		updateCat(update, categoria.getId(),categoria.getNome());
 		//		tarefa.getDataTarefa(),tarefa.getHora(),tarefa.getMin());
 
@@ -58,6 +59,13 @@ public class CategoriaSQL extends SQLGenerico{
 		// TODO Auto-generated method stub
 		String delete = "DELETE FROM Categoria WHERE idCat = ?";
 		deleteCat(delete, id);
+
+	}
+	
+	public void SemCategoria(Categoria categoria) throws SQLException {
+		// TODO Auto-generated method stub
+		String update = "UPDATE TAREFA SET categoria = 'Outros'" + " WHERE id = ?";
+		deleteCat(update, categoria.getId());
 
 	}
 	/**
