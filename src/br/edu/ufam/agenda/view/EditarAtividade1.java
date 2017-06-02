@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Font;
@@ -161,7 +163,7 @@ public class EditarAtividade1 extends JFrame {
 				String categoria = comboBox_1.getSelectedItem().toString();
 				try {
 					tc.alterarTarefa(tarefa.getId(), textField.getText(), categoria, comboBox.getSelectedItem().toString(), dateChooser.getDate(),hora,minuto);
-					
+					JOptionPane.showMessageDialog(null, "Atividade editada");
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block

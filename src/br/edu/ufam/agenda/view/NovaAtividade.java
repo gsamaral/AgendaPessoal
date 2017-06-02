@@ -16,15 +16,21 @@ import javax.swing.JRadioButton;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
+import javax.swing.AbstractListModel;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import com.toedter.components.JSpinField;
 
+import br.edu.ufam.agenda.AgendaPessoal;
+import br.edu.ufam.agenda.Categoria;
+import br.edu.ufam.agenda.controller.CategoriaController;
 import br.edu.ufam.agenda.controller.TarefaController;
 
 public class NovaAtividade extends JFrame {
@@ -88,7 +94,7 @@ public class NovaAtividade extends JFrame {
 		panel_1.add(lblCategoria);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Reunião", "Escolar", "Profissional", "Outros"}));
+		//comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"Reunião", "Escolar", "Profissional", "Outros"}));
 		comboBox_1.setBounds(100, 42, 161, 20);
 		panel_1.add(comboBox_1);
 		
@@ -140,6 +146,20 @@ public class NovaAtividade extends JFrame {
 		
 		JComboBox<String> comboBox = new JComboBox();
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ativa", "Concluída", "Planejamento"}));
+		CategoriaController tf = new CategoriaController();
+		List<Categoria> recebe = tf.getCat();
+		DefaultListModel model = new DefaultListModel();
+		comboBox_1.setModel(new DefaultComboBoxModel() {
+			public int getSize() {
+				return recebe.size();
+			}
+
+			public Object getElementAt(int index) {
+				return recebe.get(index).getNome();
+			}
+
+		});
+
 		comboBox.setBounds(92, 7, 134, 24);
 		panel_5.add(comboBox);
 		

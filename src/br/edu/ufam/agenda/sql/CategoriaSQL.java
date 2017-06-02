@@ -9,9 +9,15 @@ import java.util.List;
 
 import br.edu.ufam.agenda.AgendaPessoal;
 import br.edu.ufam.agenda.Categoria;
-
+/**
+ * Classe que faz as execuções SQL referente a tabela Categoria do banco Planner
+ * @author geovana
+ *
+ */
 public class CategoriaSQL extends SQLGenerico{
-
+	/**
+	 * atributo do tipo connection
+	 */
 	private Connection connection;
 	
 	public CategoriaSQL()  {
@@ -19,6 +25,11 @@ public class CategoriaSQL extends SQLGenerico{
 		this.connection = new ConnectionDatabase().getConnection();
 	}
 	
+	/**
+	 * metodo que insere um categoria na tabela
+	 * @param categoria
+	 * @throws SQLException
+	 */
 	public void InserirCategoria(Categoria categoria) throws SQLException {
 		// cria objeto
 		// Cria uma conexão com o banco
@@ -26,7 +37,11 @@ public class CategoriaSQL extends SQLGenerico{
 		saveCat(insert, categoria.getNome());
 
 	}
-	
+	/**
+	 * metodo que altera um categoria na tabela
+	 * @param categoria
+	 * @throws SQLException
+	 */
 	public void AlterarCat(Categoria categoria) throws SQLException {
 		// TODO Auto-generated method stub
 		String update = "UPDATE Categoria SET nomeCat = ?" + " WHERE idCat = ?";
@@ -34,14 +49,22 @@ public class CategoriaSQL extends SQLGenerico{
 		//		tarefa.getDataTarefa(),tarefa.getHora(),tarefa.getMin());
 
 	}
-
-	public void ExcluirCat(int id) throws SQLException {
+	/**
+	 * metodo que exclui um categoria na tabela
+	 * @param categoria
+	 * @throws SQLException
+	 */
+	public void ExcluirCat(long id) throws SQLException {
 		// TODO Auto-generated method stub
 		String delete = "DELETE FROM Categoria WHERE idCat = ?";
 		deleteCat(delete, id);
 
 	}
-	
+	/**
+	 * metodo que lista as categorias da tabela
+	 * @param categoria
+	 * @throws SQLException
+	 */
 	public List<Categoria> getCategoria() {
 		Connection conn = null;
 		try {
@@ -69,8 +92,14 @@ public class CategoriaSQL extends SQLGenerico{
 		}
 	}
 	
+	/**
+	 * metodo que busca uma categoria pelo nome
+	 * @param categoria
+	 * @throws SQLException
+	 */
 	public Categoria findCatByName(String nome) throws SQLException {
-        String select = "SELECT * FROM Categoria WHERE nomeCat = ?;";
+        String select = "SELECT * FROM Categoria WHERE nomeCat = ?";
+        
         Categoria categoria = new Categoria();
         PreparedStatement stmt = 
 			getConnection().prepareStatement(select);
@@ -79,14 +108,17 @@ public class CategoriaSQL extends SQLGenerico{
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
-        	categoria.setNome(rs.getString("nomeCat"));
-			
+        	
+			categoria.setNome(rs.getString("nomeCat"));
+			categoria.setId(rs.getInt("idCat"));
         }
 
         rs.close();
         stmt.close();
         return categoria;
     }
+
+
 
 	
 

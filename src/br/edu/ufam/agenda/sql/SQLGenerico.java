@@ -38,12 +38,16 @@ public class SQLGenerico {
 	}
 
 	protected void delete(String deleteSql, Object... parametros) throws SQLException {
-		PreparedStatement pstmt = getConnection().prepareStatement(deleteSql);
+        PreparedStatement pstmt = 
+			getConnection().prepareStatement(deleteSql);
+			
+        for (int i = 0; i < parametros.length; i++) {
+            pstmt.setObject(i+1, parametros[i]);
+        }
 
-		for (int i = 0; i < parametros.length; i++) {
-			pstmt.setObject(i + 1, parametros[i]);
-		}
-	}
+        pstmt.execute();
+        pstmt.close();
+    }
 	
 	protected void saveCat(String insertSql, Object... parametros) throws SQLException {
 		PreparedStatement pstmt = getConnection().prepareStatement(insertSql);
@@ -68,12 +72,16 @@ public class SQLGenerico {
 	}
 
 	protected void deleteCat(String deleteSql, Object... parametros) throws SQLException {
-		PreparedStatement pstmt = getConnection().prepareStatement(deleteSql);
+        PreparedStatement pstmt = 
+			getConnection().prepareStatement(deleteSql);
+			
+        for (int i = 0; i < parametros.length; i++) {
+            pstmt.setObject(i+1, parametros[i]);
+        }
 
-		for (int i = 0; i < parametros.length; i++) {
-			pstmt.setObject(i + 1, parametros[i]);
-		}
-	}
+        pstmt.execute();
+        pstmt.close();
+    }
 
 	
 	

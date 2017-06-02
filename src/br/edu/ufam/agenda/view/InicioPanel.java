@@ -24,6 +24,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 
 public class InicioPanel extends JPanel {
+	JList list;
 
 	/**
 	 * Create the panel.
@@ -48,7 +49,7 @@ public class InicioPanel extends JPanel {
 		panel_1.add(lblPrximas, gbc_lblPrximas);
 		add(panel_1);
 
-		JList list = new JList();
+		list = new JList();
 		JScrollPane listScrollPane = new JScrollPane();
 		listScrollPane.setSize(new Dimension(75, 200));
 		listScrollPane.getViewport().setView(list);
@@ -102,10 +103,28 @@ public class InicioPanel extends JPanel {
 					try {
 						EditarAtividade1 editTarefa = new EditarAtividade1(edit.buscaContatoPorNome(s));
 						editTarefa.setVisible(true);
+						editTarefa.addWindowListener(new java.awt.event.WindowAdapter(){
+							@Override
+							public void windowClosed(java.awt.event.WindowEvent windowEvent){
+								list.setModel(new AbstractListModel() {
+									TarefaController tf = new TarefaController();
+									List<AgendaPessoal> recebe = tf.listaTarefas();
+									public int getSize() {
+										return recebe.size();
+									}
+
+									public Object getElementAt(int index) {
+										return recebe.get(index).getNomeTarefa() + " " + recebe.get(index).getDataTarefa();
+									}
+
+								});
+							}
+						});
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",
 							JOptionPane.ERROR_MESSAGE);
@@ -126,17 +145,39 @@ public class InicioPanel extends JPanel {
 				if (list.getSelectedValue() != null) {
 					String item = (String) list.getSelectedValue();
 					String[] itemLista = item.split(" ");
-					String s = itemLista[0].toString();
-					System.out.println(s);
+					String s="";
+					for(int i=0;i<(itemLista.length-1);i++){
+						s+=itemLista[i].toString();
+						if(i!=itemLista.length-1){
+							s+=" ";
+						}
+					}
 					
+					AgendaPessoal nome;
 					
 					try {
-						ExcAtividade excluiTarefa = new ExcAtividade(delete.buscaContatoPorNome(s));
-						excluiTarefa.setVisible(true);
+						nome = delete.buscaContatoPorNome(s);
+						delete.excluirTarefa(nome.getId());
+						JOptionPane.showMessageDialog(null, "Atividade excluída");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+					
+					list.setModel(new AbstractListModel() {
+						TarefaController tf = new TarefaController();
+						List<AgendaPessoal> recebe = tf.listaTarefas();
+						public int getSize() {
+							return recebe.size();
+						}
+
+						public Object getElementAt(int index) {
+							return recebe.get(index).getNomeTarefa() + " " + recebe.get(index).getDataTarefa();
+						}
+
+					});
+					
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",
 							JOptionPane.ERROR_MESSAGE);
@@ -178,7 +219,25 @@ public class InicioPanel extends JPanel {
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NovaAtividade novaAtv = new NovaAtividade();
+				
 				novaAtv.setVisible(true);
+				novaAtv.addWindowListener(new java.awt.event.WindowAdapter(){
+					@Override
+					public void windowClosed(java.awt.event.WindowEvent windowEvent){
+						list.setModel(new AbstractListModel() {
+							TarefaController tf = new TarefaController();
+							List<AgendaPessoal> recebe = tf.listaTarefas();
+							public int getSize() {
+								return recebe.size();
+							}
+
+							public Object getElementAt(int index) {
+								return recebe.get(index).getNomeTarefa() + " " + recebe.get(index).getDataTarefa();
+							}
+
+						});
+					}
+				});
 				// TarefaController tf = new TarefaController();
 				// List<AgendaPessoal> lista = tf.listaTarefas();
 				// textField.setText(lista.get(0).getNomeTarefa());
@@ -186,5 +245,8 @@ public class InicioPanel extends JPanel {
 			}
 		});
 	}
+	
+	
+	
 
 }

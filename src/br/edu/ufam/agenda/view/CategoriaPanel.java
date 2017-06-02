@@ -79,7 +79,7 @@ public class CategoriaPanel extends JPanel {
 		gbl_panel_2.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_2.setLayout(gbl_panel_2);
 
-		JLabel lblConteudoCategoria = new JLabel("Conteudo Categoria");
+		JLabel lblConteudoCategoria = new JLabel("Atividades da Categoria");
 		GridBagConstraints gbc_ConteudoCategoria = new GridBagConstraints();
 		gbc_ConteudoCategoria.insets = new Insets(0, 0, 5, 0);
 		gbc_ConteudoCategoria.gridx = 0;
@@ -102,21 +102,26 @@ public class CategoriaPanel extends JPanel {
 		panel_3.setLayout(null);
 
 		JButton btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.setBounds(53, 31, 117, 29);
+		btnAdicionar.setBounds(12, 31, 100, 29);
 		panel_3.add(btnAdicionar);
 
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(182, 31, 117, 29);
+		btnEditar.setBounds(109, 31, 100, 29);
 		panel_3.add(btnEditar);
 
 		JButton btnExcluir = new JButton("Excluir");
-		btnExcluir.setBounds(311, 31, 117, 29);
+		btnExcluir.setBounds(209, 31, 100, 29);
 		panel_3.add(btnExcluir);
+
+		JButton btnNewButton = new JButton("Atualizar");
+		btnNewButton.setBounds(306, 31, 117, 29);
+		panel_3.add(btnNewButton);
 
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				NovaCat novaCat = new NovaCat();
 				novaCat.setVisible(true);
+
 				// TarefaController tf = new TarefaController();
 				// List<AgendaPessoal> lista = tf.listaTarefas();
 				// textField.setText(lista.get(0).getNomeTarefa());
@@ -133,16 +138,16 @@ public class CategoriaPanel extends JPanel {
 					String[] itemLista = item.split(" ");
 					String s = itemLista[0].toString();
 					System.out.println(s);
-
-					
+					EditarCat editarcat;
 					try {
-						EditarCat editcat = new EditarCat(edit.buscaContatoPorNomeCat(s));
-						editcat.setVisible(true);
+						editarcat = new EditarCat(edit.buscaContatoPorNomeCat(s));
+						editarcat.setVisible(true);
+
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",
 							JOptionPane.ERROR_MESSAGE);
@@ -150,7 +155,28 @@ public class CategoriaPanel extends JPanel {
 
 			}
 		});
-//		
+		//
+
+		btnNewButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				list.setModel(new AbstractListModel() {
+					CategoriaController ct = new CategoriaController();
+					List<Categoria> recebe = ct.getCat();
+
+					public int getSize() {
+						return recebe.size();
+					}
+
+					public Object getElementAt(int index) {
+						return recebe.get(index).getNome();
+					}
+				});
+
+			}
+		});
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				CategoriaController cat = new CategoriaController();
@@ -159,18 +185,18 @@ public class CategoriaPanel extends JPanel {
 					String item = (String) list.getSelectedValue();
 					String[] itemLista = item.split(" ");
 					String s = itemLista[0].toString();
-					System.out.println(s);
+				
 
-					
 					try {
-						ExcluirCat exc = new ExcluirCat(cat.buscaContatoPorNomeCat(s));
-						exc.setVisible(true);
-						System.out.println(exc);
+						Categoria nome = cat.buscaContatoPorNomeCat(s);
+						cat.excluirCat(nome.getId());
+						JOptionPane.showMessageDialog(null, "Categoria excluída. Clique pra atualizar lista");
+
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Você precisa selecionar um item", "Message",
 							JOptionPane.ERROR_MESSAGE);
@@ -178,35 +204,44 @@ public class CategoriaPanel extends JPanel {
 
 			}
 		});
-//
+		//
 		list.addListSelectionListener(new ListSelectionListener() {
-			  public void valueChanged(ListSelectionEvent evt) {
-			    if (!evt.getValueIsAdjusting()) {
-			    	JList source = (JList)evt.getSource();
-		            String selected = source.getSelectedValue().toString();
-		            TarefaController ct = new TarefaController();
-		    		//resolver a consulta
-		            List<AgendaPessoal> recebe = ct.pegaNomeporcategoria(selected);
-		    		list2.setModel(new AbstractListModel() {
-		    			public int getSize() {
-		    				return recebe.size();
-		    			}
-		    			public Object getElementAt(int index) {
-		    				return recebe.get(index).getNomeTarefa();
-		    			}
-		    		});
-			      // code here
-			    }
-			  }
-			});
+
+			public void valueChanged(ListSelectionEvent evt) {
+				if (!evt.getValueIsAdjusting()) {
+					
+					JList source = (JList) evt.getSource();
+
+					if (source.getSelectedValue() != null) {
+						String selected = source.getSelectedValue().toString();
+
+						list2.setModel(new AbstractListModel() {
+							TarefaController ct = new TarefaController();
+							List<AgendaPessoal> recebe = ct.pegaNomeporcategoria(selected);
+
+							public int getSize() {
+								return recebe.size();
+							}
+
+							public Object getElementAt(int index) {
+								return recebe.get(index).getNomeTarefa();
+							}
+						});
+					}
+					
+					// code here
+				}
+			}
+		});
 		// -----------
 
 		// TarefaController tf = new TarefaController();
 		// List<AgendaPessoal> recebe = tf.pegaDia();
-		CategoriaController ct = new CategoriaController();
-		List<Categoria> recebe = ct.getCat();
 
 		list.setModel(new AbstractListModel() {
+			CategoriaController ct = new CategoriaController();
+			List<Categoria> recebe = ct.getCat();
+
 			public int getSize() {
 				return recebe.size();
 			}
@@ -215,13 +250,8 @@ public class CategoriaPanel extends JPanel {
 				return recebe.get(index).getNome();
 			}
 		});
-//TODO Habilitar foco para atualizar as listas e pegar conteudo do item selecionado
-		
-		
-		
-	}
-	
-	
-	
+		// TODO Habilitar foco para atualizar as listas e pegar conteudo do item
+		// selecionado
 
+	}
 }

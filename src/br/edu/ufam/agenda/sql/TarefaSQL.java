@@ -8,7 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ufam.agenda.AgendaPessoal;
-
+/**
+ * CLasse que executa os comandos sql para as tarefas na tabela TAREFA
+ * @author geovana
+ *
+ */
 public class TarefaSQL extends SQLGenerico {
 
 	private Connection connection;
@@ -16,7 +20,12 @@ public class TarefaSQL extends SQLGenerico {
 	public TarefaSQL() {
 		this.connection = new ConnectionDatabase().getConnection();
 	}
-
+	
+	/**
+	 * metodo que insere uma tarefa no banco
+	 * @param tarefa
+	 * @throws SQLException
+	 */
 	public void Inserir(AgendaPessoal tarefa) throws SQLException {
 		// cria objeto
 		// Cria uma conexão com o banco
@@ -26,7 +35,11 @@ public class TarefaSQL extends SQLGenerico {
 	}
 	
 	
-
+	/**
+	 * metodo que altera uma tarefa no banco
+	 * @param tarefa
+	 * @throws SQLException
+	 */
 	public void Alterar(AgendaPessoal tarefa) throws SQLException {
 		// TODO Auto-generated method stub
 		String update = "UPDATE TAREFA SET nomeTarefa = ?, categoria = ?, status=?, dataTarefa=?,hora=?,min=?" + " WHERE id = ?";
@@ -34,14 +47,21 @@ public class TarefaSQL extends SQLGenerico {
 				tarefa.getDataTarefa(),tarefa.getHora(),tarefa.getMin());
 
 	}
-
-	public void Excluir(int id) throws SQLException {
+	/**
+	 * metodo que exclui uma tarefa no banco
+	 * @param id
+	 * @throws SQLException
+	 */
+	public void Excluir(long id) throws SQLException {
 		// TODO Auto-generated method stub
 		String delete = "DELETE FROM TAREFA WHERE id = ?";
 		delete(delete, id);
 
 	}
-	
+	/**
+	 * metodo que pega as tarefas pelo dia corrente
+	 * @throws SQLException
+	 */
 	public void pegaDia() throws SQLException {
 		// TODO Auto-generated method stub
 		AgendaPessoal data = new AgendaPessoal();
@@ -50,6 +70,10 @@ public class TarefaSQL extends SQLGenerico {
 		System.out.println(stmt);
 	}
 	
+	/**
+	 * metodo que pega as tarefas do banco
+	 * @return lista de tarefas
+	 */
 	public List<AgendaPessoal> getLista() {
 		Connection conn = null;
 		try {
@@ -82,6 +106,10 @@ public class TarefaSQL extends SQLGenerico {
 		}
 	}
 	
+	/**
+	 * metodo que pega as tarefas do dia corrente
+	 * @return Lista de tarefas
+	 */
 	public List<AgendaPessoal> getDia() {
 		Connection conn = null;
 		try {
@@ -112,6 +140,10 @@ public class TarefaSQL extends SQLGenerico {
 		}
 	}
 	
+	/**
+	 * metodo que pega as tarefas do mes atual
+	 * @return lista de tarefas
+	 */
 	public List<AgendaPessoal> getMes() {
 		Connection conn = null;
 		try {
@@ -144,6 +176,10 @@ public class TarefaSQL extends SQLGenerico {
 		}
 	}
 	
+	/**
+	 * metodo que pega as tarefas dos ultimos 7 dias
+	 * @return
+	 */
 	public List<AgendaPessoal> getSemana() {
 		Connection conn = null;
 		try {
@@ -175,7 +211,10 @@ public class TarefaSQL extends SQLGenerico {
 			throw new RuntimeException(e);
 		}
 	}
-	
+	/**
+	 * metodo que pega as tarefas de acordo com o status concluido
+	 * @return
+	 */
 	public List<AgendaPessoal> statusConcluido() {
 		Connection conn = null;
 		try {
@@ -208,6 +247,12 @@ public class TarefaSQL extends SQLGenerico {
 		}
 	}
 	
+	/**
+	 * metodo que busca as tarefas pelo nome
+	 * @param nome
+	 * @return
+	 * @throws SQLException
+	 */
 	public AgendaPessoal findByName(String nome) throws SQLException {
         String select = "SELECT * FROM TAREFA WHERE nomeTarefa = ?";
         AgendaPessoal tarefas = new AgendaPessoal();
@@ -231,7 +276,11 @@ public class TarefaSQL extends SQLGenerico {
         stmt.close();
         return tarefas;
     }
-	
+	/**
+	 * metodo que busca todas as tarefas de acordo com a categoria solicitada
+	 * @param categoria
+	 * @return
+	 */
 	public List<AgendaPessoal> pegaTarefaPorCategoria(String categoria) {
 		Connection conn = null;
 		try {
